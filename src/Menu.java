@@ -11,6 +11,10 @@ public class Menu {
         int[] subseleccion = new int[3];
         int opc = sc.nextInt();
         Simulacion s = new Simulacion();
+        System.out.println("Ingrese el presupuesto del cliente: ");
+        double pres = sc.nextDouble();
+        NumAleatorios n = new NumAleatorios();
+        n.getSemillas();
         switch (opc){
             case 1:
                 subseleccion[0] = 1;
@@ -25,7 +29,7 @@ public class Menu {
                 System.out.println("3.- RTX 3080");
                 subseleccion[2] = sc.nextInt();
                 s.establecer(subseleccion);
-                s.ejecutar();
+                s.ejecutarGPU();
                 break;
             case 2:
                 subseleccion[0] = 2;
@@ -43,6 +47,7 @@ public class Menu {
                 s.ejecutar();
                 break;
             default:
+                System.out.println("Ingrese una opción válida por favor");
                 break;
         }
         sc.close();
