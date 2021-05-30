@@ -16,11 +16,12 @@ public class Menu {
         int opc = sc.nextInt();
         imp(1);
         //Ingreso de presupuesto
-        System.out.print("Ingrese el presupuesto del cliente: ");
-        pres = sc.nextDouble();
-        //Declaración de NumAlearorios para su uso en Simulacion
+        do {
+            System.out.print("Ingrese el presupuesto del cliente: ");
+            pres = sc.nextDouble();
+            if(pres < 25000) System.out.println("El presupuesto es menor a $25,000");
+        } while (pres < 25000);
         //Declaración de clase Simulacion para su uso posterior
-        NumAleatorios n = new NumAleatorios();
         Simulacion s = new Simulacion();
         switch (opc) {
             case 1 -> {
