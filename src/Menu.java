@@ -5,20 +5,26 @@ public class Menu {
     public Menu(){}
     public void correr(){
         Scanner sc = new Scanner(System.in);
+        //Ingreso de datos para la ejecución de la simulación
         System.out.println("CriptoMX");
         System.out.println("Seleccione el tipo de minero: ");
         System.out.println("1.- GPU");
         System.out.println("2.- ASIC");
         imp(2);
+        //Selección de minero
         int[] subseleccion = new int[3];
         int opc = sc.nextInt();
         imp(1);
+        //Ingreso de presupuesto
         System.out.print("Ingrese el presupuesto del cliente: ");
         pres = sc.nextDouble();
+        //Declaración de NumAlearorios para su uso en Simulacion
+        //Declaración de clase Simulacion para su uso posterior
         NumAleatorios n = new NumAleatorios();
         Simulacion s = new Simulacion();
         switch (opc) {
             case 1 -> {
+                //Seleccion de algoritmo para GPU
                 subseleccion[0] = 1;
                 System.out.println("Seleccione el algoritmo: ");
                 System.out.println("1.- Zhash");
@@ -34,9 +40,11 @@ public class Menu {
                 imp(2);
                 subseleccion[2] = sc.nextInt();
                 s.establecer(subseleccion);
+                //Ejecución de la simulación de GPU
                 s.ejecutarGPU();
             }
             case 2 -> {
+                //Seleccion de algoritmo para ASIC
                 subseleccion[0] = 2;
                 System.out.println("Seleccione el algoritmo: ");
                 System.out.println("1.- X11");
@@ -52,6 +60,7 @@ public class Menu {
                 imp(1);
                 subseleccion[2] = sc.nextInt();
                 s.establecer(subseleccion);
+                //Ejecución de la simulación de ASIC
                 s.ejecutar();
             }
             default -> System.out.println("Ingrese una opción válida por favor");
@@ -61,12 +70,8 @@ public class Menu {
     //método para impresión de sentencias mas utilizadas de manera rápida
     public void imp(int a){
         switch (a){
-            case 1 -> {
-                System.out.println("-----------------------------------------------------------------");
-            }
-            case 2 -> {
-                System.out.print("Ingrese su respuesta: ");
-            }
+            case 1 -> System.out.println("-----------------------------------------------------------------");
+            case 2 -> System.out.print("Ingrese su respuesta: ");
         }
     }
 }
