@@ -1,14 +1,24 @@
 public class Simulacion{
+   /* Lo ideal seria que para este programa, no se utilicen números aleatorios, debido a que si bien es cierto que los rendimientos de los
+    * equipos de mineria pueden diferir bastante entre si; esta diferencia no es aleatoria, depnde enteramente de las condiciones del ambiente
+    * en el que se opere el equipo, sin emargo, al no tener conocimiento ni de las condiciones del entorno y mucho menos de las diferencias en la
+    * construcción de los controladores del minero, un número aleatorio puede dannos una ídea cercana al rendimiento que PODRIA tener el equipo
+    */
     Menu m = new Menu();
+    //Declaramos las variables del sistema
     public double tiempoBloque, bloquesDiarios, recompensaBloque, hashrateRed, hashrateEquipo, precioMoneda, wattsConsumo, gananciaEstimada, rateCorrespondiente,
-            ganaciaBloqueDia, gananciaEstimadaDLS, gananciaEstimadaNeta, gananciaEstimadaPesos, precioMinero, presupuesto;
+                  ganaciaBloqueDia, gananciaEstimadaDLS, gananciaEstimadaNeta, gananciaEstimadaPesos, precioMinero, presupuesto;
     public boolean imposible = false;
-    public static String algoritmo, minero, comparativa[] = new String [3];
+    public static String algoritmo;
+    public static String minero;
+    public static String[] comparativa = new String [3];
     public static final double COSTO_KILOWATT = .085, PRECIO_DOLAR = 20.87;
+    //Declaramos el objeto para la aleatoriedad
     NumAleatorios n = new NumAleatorios();
     public Simulacion(){
         presupuesto = m.pres;
     }
+    //En este método preparamos las condiciones para la ejecuión de la simulación.
     public void establecer(int[] subseleccion){
         //Opción para minero GPU
         if(subseleccion[0] == 1){
@@ -117,6 +127,7 @@ public class Simulacion{
                 precioMinero = 100000;
             }
         }
+        //Estos if condicionan las combinaciones de entre mineros y algoritmos que son incompatibles ente sí
         if(subseleccion[0] == 2 && subseleccion[1] == 1 && subseleccion[2] != 1){
             imposible = true;
         }
@@ -127,6 +138,7 @@ public class Simulacion{
             imposible = true;
         }
     }
+    //Este método ejecuta la simulación preparada para mineros ASIC
     public void ejecutar(){
         if (imposible){
             System.out.println("El minero no puede funcionar con la configuración seleccionada, por favor elija otra");
@@ -142,11 +154,13 @@ public class Simulacion{
                     + ", este minero tiene un precio de "+precioMinero+" en comparación al presupuesto de "+presupuesto);
         }
     }
-    public void ejecutarGPU(){ ;
-        for (int x = 0; x < comparativa.length; x++){
-            System.out.println(comparativa[x]);
+    //Este método ejecuta la simulación preparada para mineros GPU
+    public void ejecutarGPU(){
+        for (String s : comparativa) {
+            System.out.println(s);
         }
     }
+    //Este método prepara los valores para imprimir en el metodo ejecutar GPU
     public String cadena(){
         rateCorrespondiente = hashrateEquipo/hashrateRed;
         ganaciaBloqueDia = bloquesDiarios * recompensaBloque;
