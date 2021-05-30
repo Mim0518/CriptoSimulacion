@@ -21,10 +21,8 @@ public class Menu {
         s.getPres();
         switch (opc) {
             case 1 -> {
-
                 //Seleccion de algoritmo para GPU
                 subseleccion[0] = 1;
-                sc.next();
                 System.out.println("Seleccione el algoritmo: ");
                 System.out.println("1.- Zhash");
                 System.out.println("2.- Ethash");

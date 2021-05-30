@@ -174,7 +174,7 @@ public class Simulacion{
     public void getPres(){
         do {
             System.out.print("Ingrese el presupuesto del cliente: ");
-            presupuesto = (double) a.nextInt();
+            presupuesto = a.nextDouble();
             if(presupuesto < 25000) System.out.println("El presupuesto es menor a $25,000");
         } while (presupuesto < 25000);
     }
