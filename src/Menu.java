@@ -3,8 +3,10 @@ import java.util.Scanner;
 public class Menu {
     public double pres;
     public Menu(){}
+    public static Scanner sc = new Scanner(System.in);
     public void correr(){
-        Scanner sc = new Scanner(System.in);
+        //Declaración de clase Simulacion para su uso posterior
+        Simulacion s = new Simulacion();
         //Ingreso de datos para la ejecución de la simulación
         System.out.println("CriptoMX");
         System.out.println("Seleccione el tipo de minero: ");
@@ -16,17 +18,13 @@ public class Menu {
         int opc = sc.nextInt();
         imp(1);
         //Ingreso de presupuesto
-        do {
-            System.out.print("Ingrese el presupuesto del cliente: ");
-            pres = sc.nextDouble();
-            if(pres < 25000) System.out.println("El presupuesto es menor a $25,000");
-        } while (pres < 25000);
-        //Declaración de clase Simulacion para su uso posterior
-        Simulacion s = new Simulacion();
+        s.getPres();
         switch (opc) {
             case 1 -> {
+
                 //Seleccion de algoritmo para GPU
                 subseleccion[0] = 1;
+                sc.next();
                 System.out.println("Seleccione el algoritmo: ");
                 System.out.println("1.- Zhash");
                 System.out.println("2.- Ethash");
@@ -66,7 +64,6 @@ public class Menu {
             }
             default -> System.out.println("Ingrese una opción válida por favor");
         }
-        sc.close();
     }
     //método para impresión de sentencias mas utilizadas de manera rápida
     public void imp(int a){

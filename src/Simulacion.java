@@ -1,9 +1,12 @@
+import java.util.Scanner;
+
 public class Simulacion{
    /* Lo ideal seria que para este programa, no se utilicen números aleatorios, debido a que si bien es cierto que los rendimientos de los
     * equipos de mineria pueden diferir bastante entre si; esta diferencia no es aleatoria, depnde enteramente de las condiciones del ambiente
     * en el que se opere el equipo, sin emargo, al no tener conocimiento ni de las condiciones del entorno y mucho menos de las diferencias en la
     * construcción de los controladores del minero, un número aleatorio puede dannos una ídea cercana al rendimiento que PODRIA tener el equipo
     */
+   public static Scanner a = new Scanner(System.in);
     Menu m = new Menu();
     //Declaramos las variables del sistema
     public double tiempoBloque, bloquesDiarios, recompensaBloque, hashrateRed, hashrateEquipo, precioMoneda, wattsConsumo, gananciaEstimada, rateCorrespondiente,
@@ -15,9 +18,6 @@ public class Simulacion{
     public static final double COSTO_KILOWATT = .085, PRECIO_DOLAR = 20.87;
     //Declaramos el objeto para la aleatoriedad
     NumAleatorios n = new NumAleatorios();
-    public Simulacion(){
-        presupuesto = m.pres;
-    }
     //En este método preparamos las condiciones para la ejecuión de la simulación.
     public void establecer(int[] subseleccion){
         //Opción para minero GPU
@@ -170,5 +170,12 @@ public class Simulacion{
         gananciaEstimadaPesos = gananciaEstimadaDLS * PRECIO_DOLAR;
         return "La ganancia estimada de un minero modelo "+minero+" a un rendimiento aleatorio de "+hashrateEquipo+" hashes por segundo es de $"+gananciaEstimadaPesos+" MXN"
                 + ", este minero tiene un precio de "+precioMinero+" en comparación al presupuesto de "+presupuesto;
+    }
+    public void getPres(){
+        do {
+            System.out.print("Ingrese el presupuesto del cliente: ");
+            presupuesto = (double) a.nextInt();
+            if(presupuesto < 25000) System.out.println("El presupuesto es menor a $25,000");
+        } while (presupuesto < 25000);
     }
 }
