@@ -9,6 +9,7 @@ public class RendimientoGraficas {
     double gananciaEstimadaDLS;
     double gananciaEstimadaNeta;
     double gananciaEstimadaPesos;
+    double proporcionPrecio;
 
     public RendimientoGraficas(String nom, String algoritmo, double hashes, double watts) {
         this.nom = nom;
@@ -95,5 +96,13 @@ public class RendimientoGraficas {
 
     public void setGananciaEstimadaPesos(double gananciaEstimadaPesos) {
         this.gananciaEstimadaPesos = gananciaEstimadaPesos;
+    }
+
+    public double getProporcionPrecio() {
+        return proporcionPrecio;
+    }
+
+    public void setProporcionPrecio(double proporcionPrecio) {
+        this.proporcionPrecio = proporcionPrecio;
     }
 }

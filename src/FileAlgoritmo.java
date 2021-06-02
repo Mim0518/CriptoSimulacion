@@ -11,6 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 public class FileAlgoritmo {
+    /*
+    Clase que permite obtener datos de las tablas de excel
+     */
 
     public ArrayList<Algoritmo> obtenerDeArchivo(){
         ArrayList<Algoritmo> a = new ArrayList<>();
@@ -21,10 +24,8 @@ public class FileAlgoritmo {
         {
             File file = new File("src/Algoritmos.xlsx");
             FileInputStream fis = new FileInputStream(file);
-
             XSSFWorkbook wb = new XSSFWorkbook(fis);
             XSSFSheet sheet = wb.getSheetAt(0);
-
             for (Row row : sheet) {
                 if(contLlenado != 0){
                     Iterator<Cell> cellIterator = row.cellIterator();
@@ -41,7 +42,7 @@ public class FileAlgoritmo {
                             default:
                         }
                     }
-                    a.add(new Algoritmo(nom, datosF[0], datosF[1], datosF[2], datosF[3], datosF[4]));
+                    a.add(new Algoritmo(nom, datosF[0], datosF[1], datosF[2], datosF[3]));
                     cont = 0;
                 }
                 contLlenado++;

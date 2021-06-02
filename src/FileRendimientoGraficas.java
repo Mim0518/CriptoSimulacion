@@ -32,16 +32,20 @@ public class FileRendimientoGraficas {
                         switch (cell.getCellType()) {
                             case Cell.CELL_TYPE_STRING:
                                 nom[contS] = cell.getStringCellValue();
+                                //System.out.print(cell.getStringCellValue() +"  ");
                                 contS++;
                                 break;
                             case Cell.CELL_TYPE_NUMERIC:
+                                //System.out.print(cell.getNumericCellValue()+"  ");
                                 datosF[cont] = cell.getNumericCellValue();
                                 cont++;
                                 break;
                             default:
                         }
                     }
-                    a.add(new RendimientoGraficas(nom[0], nom[1], datosF[0], datosF[1]));
+                    if(datosF[0]!=0){
+                        a.add(new RendimientoGraficas(nom[0], nom[1], datosF[0] / 1000000, datosF[1]));
+                    }
                     cont = 0;
                     contS = 0;
                 }

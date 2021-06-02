@@ -15,16 +15,14 @@ public class FileGrafica {
     public ArrayList<Grafica> obtenerDeArchivo(){
         ArrayList<Grafica> a = new ArrayList<>();
         String nom = "";
-        double datos[] = new double[5];
+        double[] datos = new double[5];
         int cont = 0, contLlenado = 0;
         try
         {
             File file = new File("src/Graficas.xlsx");
             FileInputStream fis = new FileInputStream(file);
-
             XSSFWorkbook wb = new XSSFWorkbook(fis);
             XSSFSheet sheet = wb.getSheetAt(0);
-
             for (Row row : sheet) {
                 if(contLlenado != 0){
                     Iterator<Cell> cellIterator = row.cellIterator();
@@ -46,7 +44,6 @@ public class FileGrafica {
                 contLlenado++;
             }
         }
-
         catch(Exception e) { e.printStackTrace(); }
         return a;
     };

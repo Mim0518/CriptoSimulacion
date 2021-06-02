@@ -7,13 +7,14 @@ public class Algoritmo {
     double precioMoneda;
     double gananciaBloqueDia;
 
-    public Algoritmo(String algoritmo, double tiempoBloque, double bloqueDiarios, double recompensaBloque, double hashrateRed, double precioMoneda) {
+    public Algoritmo(String algoritmo, double tiempoBloque, double recompensaBloque, double hashrateRed, double precioMoneda) {
         this.algoritmo = algoritmo;
         this.tiempoBloque = tiempoBloque;
-        this.bloqueDiarios = bloqueDiarios;
+        this.bloqueDiarios = (24*60)/((((tiempoBloque-(Math.floor(tiempoBloque)))*100)/60)+(Math.floor(tiempoBloque))) ;
         this.recompensaBloque = recompensaBloque;
         this.hashrateRed = hashrateRed;
         this.precioMoneda = precioMoneda;
+        this.gananciaBloqueDia = recompensaBloque * this.bloqueDiarios;
     }
 
     public double getGananciaBloqueDia() {

@@ -1,4 +1,7 @@
+import org.apache.xmlbeans.impl.schema.StscChecker;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +13,7 @@ public class Simulacion extends IOException {
     * en el que se opere el equipo, sin emargo, al no tener conocimiento ni de las condiciones del entorno y mucho menos de las diferencias en la
     * construcción de los controladores del minero, un número aleatorio puede dannos una ídea cercana al rendimiento que PODRIA tener el equipo
     */
-   public static final double COSTO_KILOWATT = .085, PRECIO_DOLAR = 20.05;
+   public static final double COSTO_KILOWATT = .085, PRECIO_DOLAR = 20;
    public static Scanner sc = new Scanner(System.in);
    public static double presupuesto;
    public static ArrayList<Algoritmo> algort = new FileAlgoritmo().obtenerDeArchivo();
@@ -20,7 +23,6 @@ public class Simulacion extends IOException {
    public Simulacion() throws IOException {
       leerPre();
       llenar();
-      calculaMedia();
       getOptima();
    }
 
@@ -49,69 +51,71 @@ public class Simulacion extends IOException {
             }
          }
       }
-
-   }
-   public static void calculaMedia(){
-      double media, sum;
-      int contNoNull = 0;
-      media = sum = 0;
-      for (int i = 0; i < algort.size(); i++) {
-         for (Grafica grafica : graf) {
-            for (RendimientoGraficas rendimientoGraficas : rendGraf) {
-               if (grafica.getNombre().equals(rendimientoGraficas.getNom())) {
-                  if (rendimientoGraficas.getRateCorrespondiente() != 0) {
-                     sum = rendimientoGraficas.getGananciaEstimadaPesos();
-                     contNoNull++;
-                  }
-               }
-            }
-            grafica.setGananciaMedia(sum / contNoNull);
-            media = sum = contNoNull = 0;
+      for (Grafica g: graf) {
+         System.out.println(g.getPrecio());
+         for (RendimientoGraficas ren: rendGraf) {
+            if(ren.getNom().equals(g.getNombre())) ren.setProporcionPrecio(ren.getGananciaEstimadaPesos()/g.getPrecio());
          }
       }
+
    }
+   static double change(double value, int decimalpoint)
+   {
+
+      // Using the pow() method
+      value = value * Math.pow(10, decimalpoint);
+      value = Math.floor(value);
+      value = value / Math.pow(10, decimalpoint);
+
+      System.out.println(value);
+
+      return value;
+   }
+
    public static void getOptima(){
 
       ArrayList<Grafica> comprables = new ArrayList<>();
-      int id = 0, temp = 0, mayorCont = 0;
-      double mayor = 0;
       for (Grafica grafica : graf) {
          if (grafica.getPrecio() < presupuesto) {
             comprables.add(grafica);
          }
       }
+      System.out.println(rendGraf.size());
+      ArrayList<RendimientoGraficas> graficasComprables = new ArrayList<>();
+
       for (Grafica grafica : comprables) {
          grafica.optimoPre(presupuesto);
+         for (RendimientoGraficas ren: rendGraf) {
+            if(grafica.getNombre().equals(ren.getNom())) graficasComprables.add(ren);
+         }
       }
-      comprables.sort(Comparator.comparingDouble(Grafica::getGananciaMedia));
-      System.out.println("\nLAS GRAFICAS COMPRABLES CON ESE PRESUPUESTO SON");
-      for (Grafica comprable : comprables) {
-         System.out.println("La gráfica " + comprable.getNombre() + " es comprable por una cantidad de " + comprable.getComprablesPresupuesto() + " gráficas" + " sobrando un presupuesto de $" + comprable.sobrantePresupuesto);
-         System.out.println("Detalles de grafica");
-         for (RendimientoGraficas rendimiento: rendGraf) {
-            if(rendimiento.getHashes() != 0){
-               if(rendimiento.getNom().equals(comprable.getNombre())){
-                  System.out.println("  Algoritmo usado: " + rendimiento.getAlgoritmo() );
-                  System.out.println("     Ganancia en pesos: $" + rendimiento.getGananciaEstimadaPesos() );
-               }
 
+      System.out.println(graficasComprables.size());
+
+      graficasComprables.sort(Comparator.comparingDouble(RendimientoGraficas::getProporcionPrecio).reversed());
+      System.out.println(graficasComprables.size());
+      System.out.println("\nLAS GRAFICAS COMPRABLES CON ESE PRESUPUESTO SON");
+      for (Grafica grafica : comprables) {
+         System.out.println("La gráfica " + grafica.getNombre() + " es comprable por una cantidad de " + grafica.getComprablesPresupuesto() + " gráficas" + " sobrando un presupuesto de $" + grafica.sobrantePresupuesto);
+         for (RendimientoGraficas g: graficasComprables) {
+            if(grafica.getNombre().equals(g.getNom())){
+               System.out.println(" Algoritmo usado: "+g.getAlgoritmo());
+               System.out.println("     Proporción ganancia/precio de grafica: "+g.getProporcionPrecio());
+               System.out.println("     Ganancia de gráfica en pesos: "+g.getGananciaEstimadaPesos());
             }
          }
          System.out.println("----------------------------------------------------------");
       }
-      System.out.println("La gráfica " + comprables.get(0).getNombre() + " comprando " + comprables.get(0).getComprablesPresupuesto() + " gráficas " + " sobrando un presupuesto de $" + comprables.get(0).sobrantePresupuesto);
+      System.out.println("La gráfica más optima fue " + graficasComprables.get(0).getNom() + " comprando " + graf.get(getIndexGrafica(graficasComprables.get(0))).getComprablesPresupuesto() + " gráficas con el algoritmo de "+ graficasComprables.get(0).getAlgoritmo() + " sobrando un presupuesto de $" + graf.get(getIndexGrafica(graficasComprables.get(0))).getSobrantePresupuesto());
 
    }
-   public static int getMayorGanancia(ArrayList<Grafica> op){
-      double mayor, mayorCont;
-      mayor = mayorCont = 0;
-      for (int i = 0; i < op.size(); i++) {
-         if(op.get(i).getGanananciaFinal() > mayor){
-            mayor = op.get(i).getGanananciaFinal();
-            mayorCont = i;
+   public static int getIndexGrafica(RendimientoGraficas r){
+      for (int i = 0; i < graf.size(); i++) {
+         if(graf.get(i).getNombre().equals(r.getNom())){
+            return i;
          }
       }
-      return (int) mayorCont;
+      return 0;
    }
 
 
